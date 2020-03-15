@@ -57,7 +57,6 @@ def parse_args(input_str):
     args = parser.parse_args(input_str.split())
     return args
 
-
 def parse_length(lenstr):
     first = ''
     modifiers = []
@@ -90,6 +89,14 @@ def parse_note(notestr, mapmode, base, last_len):
         retdata[idx] = val
     return retdata
 
+def parse_beat(slength):
+    if '/' in slength:
+        numbers = slength.split('/')
+    else:
+        numbers = [slength, '1']
+    a = float(numbers[0])
+    b = float(numbers[1])
+    return a / b
 
 def do_music(arg):
     try:
@@ -110,7 +117,8 @@ def do_music(arg):
         cur_time = 0.2
         last_len = 0.0
         for note in args.notes:
-            pitch, length, flag = parse_note(note, mapmode, base, last_len)
+            pitch, slength, flag = parse_note(note, mapmode, base, last_len)
+            length = parse_beat(slength)
             last_len = length
             length = note_time(args.bpm, 4.0 / length)
             if flag in (None, 'k', 'r'):
