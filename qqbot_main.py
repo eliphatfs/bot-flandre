@@ -37,7 +37,7 @@ def compose_voice_msg(local_path):
         return "[CQ:record,file=base64://%s]" % b64
 
 
-async def handler_msg(message):
+async def handler_msg(message, userid):
     if message.startswith("#calc"):
         cmd_arg = message[5:]
         return mod_math_eval.internal_calc(cmd_arg)
@@ -68,7 +68,7 @@ async def handle(ws, mdata):
     message = mdata["message"]
     print("Received:", message)
     await asyncio.sleep(random.random() + 0.2)
-    res = await handler_msg(message)
+    res = await handler_msg(message, mdata["user_id"])
     # print("Response:", res)
     if res is None:
         return
