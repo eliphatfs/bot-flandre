@@ -11,7 +11,7 @@ import scipy.io.wavfile as wav
 
 def synth(midfile):
     midlib = pretty_midi.PrettyMIDI(midfile)
-    waveform = midlib.synthesize(22050)[:22050 * 60]
+    waveform = midlib.synthesize(22050)[:22050 * 100]
     fn = "tmp/" + str(hash(midfile)) + ".wav"
     wav.write(fn, 22050, waveform)
     return fn
