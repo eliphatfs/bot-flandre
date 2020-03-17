@@ -85,7 +85,7 @@ def internal_calc(cal_str):
             p = mp.Process(target=_target, args=(q, cal_str))
             p.start()
             try:
-                return q.get(True, 4.0)
+                return q.get(True, 20.0)
             except queue.Empty:
                 p.terminate()
                 return "Time Limit Exceed"
