@@ -8,6 +8,7 @@ import asyncio
 import aiohttp
 import mod_math_eval
 import mod_flan_gallery
+import mod_midi_collection
 import mod_music
 import json
 import random
@@ -43,6 +44,12 @@ async def handler_msg(message):
     elif message.startswith("#flandre"):
         path = mod_flan_gallery.internal_local_getpic()
         return compose_image_msg(path)
+    elif message.startswith("#mcollection"):
+        cmd_arg = message[12:].strip()
+        mus = mod_midi_collection.do_search(cmd_arg)
+        if mus is None:
+            return None
+        return compose_voice_msg(mus)
     elif message.startswith("#note"):
         cmd_arg = message[5:]
         mus = mod_music.do_music(cmd_arg)
@@ -62,7 +69,7 @@ async def handle(ws, mdata):
     print("Received:", message)
     await asyncio.sleep(random.random() + 0.2)
     res = await handler_msg(message)
-    print("Response:", res)
+    # print("Response:", res)
     if res is None:
         return
     if mdata.get("message_type") == "group":
