@@ -12,7 +12,7 @@ namespace FlandreBot
         {
             var cfg = Config.FromFile();
             var connectors = new BaseConnector[] { new MiraiConnector() };
-            var modules = new BaseModule[] { };
+            var modules = new BaseModule[] { new ClockModule() };
 
             foreach (var connector in connectors) await connector.Initialize(cfg);
             foreach (var module in modules) await module.Initialize(cfg, connectors);
@@ -24,6 +24,7 @@ namespace FlandreBot
                         foreach (var module in modules) {
                             await module.HandleMessage(msg);
                         }
+                        Console.WriteLine("Handled: " + LitJson.JsonMapper.ToJson(msg));
                     }
                 }
                 await Task.Delay(1000);

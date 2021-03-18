@@ -84,7 +84,7 @@ namespace Connector {
                         source = this,
                         sender = new GroupTarget {
                             id = (long)msg["sender"]["group"]["id"],
-                            name = (string)msg["sender"]["group"]["id"],
+                            name = (string)msg["sender"]["group"]["name"],
                             user = new UserTarget {
                                 id = (long)msg["sender"]["id"],
                                 name = (string)msg["sender"]["memberName"]

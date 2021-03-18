@@ -29,7 +29,7 @@ namespace Module {
 
         public override async Task HandleMessage(Message message) {
             if (
-                message.Any((x) => x is TextSub textSub && textSub.text == "几点了")
+                message.Any((x) => x is TextSub textSub && textSub.text.Contains("几点了"))
                 && message.Any((x) => x is AtSub atSub && atSub.target == _myId)
             ) {
                 await message.Reply (new Message {
