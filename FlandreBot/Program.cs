@@ -17,8 +17,17 @@ namespace FlandreBot
             foreach (var connector in connectors) await connector.Initialize(cfg);
             foreach (var module in modules) await module.Initialize(cfg, connectors);
 
-            while (true)
-                await Task.Delay(100);  // TODO: Message loop after finishing
+            while (true) {
+                foreach (var connector in connectors) {
+                    var msgs = await connector.FetchMessages();
+                    foreach (var msg in msgs) {
+                        foreach (var module in modules) {
+                            await module.HandleMessage(msg);
+                        }
+                    }
+                }
+                await Task.Delay(1000);
+            }
         }
     }
 }
