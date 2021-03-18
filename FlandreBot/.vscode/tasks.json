@@ -26,6 +26,18 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "publish linux",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "--runtime",
+                "linux-x64",
+                "-p:PublishTrimmed=true",
+                "-p:PublishSingleFile=true"
+            ]
+        },
+        {
             "label": "watch",
             "command": "dotnet",
             "type": "process",
