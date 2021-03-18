@@ -16,7 +16,7 @@ namespace FlandreBot
 
             foreach (var connector in connectors) await connector.Initialize(cfg);
             foreach (var module in modules) await module.Initialize(cfg, connectors);
-
+            Console.WriteLine("Online.");
             while (true) {
                 foreach (var connector in connectors) {
                     var msgs = await connector.FetchMessages();
