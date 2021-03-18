@@ -1,11 +1,14 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Connector;
 
 namespace Module {
     public class ClockModule : BaseModule {
+        long _myId;
         public override async Task Initialize(Config config, BaseConnector[] connectors) {
+            _myId = config.miraiQQ;
             Clock(config, connectors);
             await Task.Yield();
         }
@@ -25,7 +28,14 @@ namespace Module {
         }
 
         public override async Task HandleMessage(Message message) {
-            await Task.Yield();
+            if (
+                message.Any((x) => x is TextSub textSub && textSub.text == "几点了")
+                && message.Any((x) => x is AtSub atSub && atSub.target == _myId)
+            ) {
+                await message.Reply (new Message {
+                    new LocalImageSub { resourcePath = $"clock/{DateTime.Now.Hour % 12}.jpg" }
+                });
+            }
         }
     }
 }
