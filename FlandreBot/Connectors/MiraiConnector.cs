@@ -14,7 +14,7 @@ namespace Connector {
             var resp = await client.GetAsync(url + "?" + queries.ToString());
             resp.EnsureSuccessStatusCode();
             var data = JsonMapper.ToObject(await resp.Content.ReadAsStringAsync());
-            if ((int)data["code"] != 0)
+            if (data.ContainsKey("code") && (int)data["code"] != 0)
                 throw new Exception($"Error GET {url}. Return code is {(int)data["code"]}.");
             return data;
         }
@@ -24,7 +24,7 @@ namespace Connector {
             )));
             resp.EnsureSuccessStatusCode();
             var data = JsonMapper.ToObject(await resp.Content.ReadAsStringAsync());
-            if ((int)data["code"] != 0)
+            if (data.ContainsKey("code") && (int)data["code"] != 0)
                 throw new Exception($"Error POST {url}. Return code is {(int)data["code"]}.");
             return data;
         }

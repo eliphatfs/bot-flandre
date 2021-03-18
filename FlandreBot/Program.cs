@@ -19,12 +19,16 @@ namespace FlandreBot
             Console.WriteLine("Online.");
             while (true) {
                 foreach (var connector in connectors) {
-                    var msgs = await connector.FetchMessages();
-                    foreach (var msg in msgs) {
-                        foreach (var module in modules) {
-                            await module.HandleMessage(msg);
+                    try {
+                        var msgs = await connector.FetchMessages();
+                        foreach (var msg in msgs) {
+                            foreach (var module in modules) {
+                                await module.HandleMessage(msg);
+                            }
+                            Console.WriteLine("Handled: " + LitJson.JsonMapper.ToJson(msg));
                         }
-                        Console.WriteLine("Handled: " + LitJson.JsonMapper.ToJson(msg));
+                    } catch (Exception e) {
+                        Console.WriteLine("Error: " + e.Message);
                     }
                 }
                 await Task.Delay(1000);
