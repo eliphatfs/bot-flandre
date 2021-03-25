@@ -11,7 +11,7 @@ namespace FlandreBot
         async static Task Main(string[] args)
         {
             var cfg = Config.FromFile();
-            var connectors = new BaseConnector[] { new MiraiConnector() };
+            var connectors = new BaseConnector[] { new TGConnector() };
             var modules = new BaseModule[] { new ClockModule() };
 
             foreach (var connector in connectors) await connector.Initialize(cfg);
