@@ -82,7 +82,7 @@ namespace Connector {
                         await PostJson("sendMessage", new JsonData {
                             ["chat_id"] = id,
                             ["text"] = textSub.text,
-                            ["parse_mode"] = "MarkdownV2"
+                            ["parse_mode"] = "Markdown"
                         });
                         break;
                     case LocalImageSub localImageSub:

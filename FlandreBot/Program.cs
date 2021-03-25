@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Connector;
 using Module;
+using Module.Calendar;
 
 namespace FlandreBot
 {
@@ -12,7 +13,7 @@ namespace FlandreBot
         {
             var cfg = Config.FromFile();
             var connectors = new BaseConnector[] { new TGConnector() };
-            var modules = new BaseModule[] { new ClockModule(), new GuthibModule() };
+            var modules = new BaseModule[] { new ClockModule(), new GuthibModule(), new CalendarModule() };
 
             foreach (var connector in connectors) await connector.Initialize(cfg);
             foreach (var module in modules) await module.Initialize(cfg, connectors);
