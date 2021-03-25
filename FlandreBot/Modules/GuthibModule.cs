@@ -6,8 +6,11 @@ namespace Module {
     public class GuthibModule : BaseModule {
         public override async Task HandleMessage(Message message) {
             if (message.Count == 1 && message[0] is TextSub textSub
-            && new[] { "/guthib", "guthib" }.Contains(textSub.text.Trim().ToLower())) {
-                await message.Reply(new Message { new TextSub { text = "You spelled it wrong." } });
+            && new[] { "/guthib", "guthib", "/guthib@guthib_bot" }.Contains(textSub.text.Trim().ToLower())) {
+                await message.Reply(new Message {
+                    new TextSub { text = "You spelled it wrong" },
+                    new TextSub { text = "You should go to guthub.com" }
+                });
             }
         }
 

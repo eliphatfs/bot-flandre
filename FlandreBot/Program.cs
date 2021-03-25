@@ -12,7 +12,7 @@ namespace FlandreBot
         {
             var cfg = Config.FromFile();
             var connectors = new BaseConnector[] { new TGConnector() };
-            var modules = new BaseModule[] { new ClockModule() };
+            var modules = new BaseModule[] { new ClockModule(), new GuthibModule() };
 
             foreach (var connector in connectors) await connector.Initialize(cfg);
             foreach (var module in modules) await module.Initialize(cfg, connectors);

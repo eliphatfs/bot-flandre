@@ -30,7 +30,6 @@ namespace Module {
         public override async Task HandleMessage(Message message) {
             if (
                 message.Any((x) => x is TextSub textSub && textSub.text.Contains("几点了"))
-                && message.Any((x) => x is AtSub atSub && atSub.target == Helper.MyID)
             ) {
                 await message.Reply (new Message {
                     new LocalImageSub { resourcePath = $"clock/{DateTime.Now.Hour % 12}.jpg" }
