@@ -1,5 +1,7 @@
 {
     "miraiEndpoint": "http://mirai.end.point:port",
     "miraiQQ": 123456789,
-    "authKey": "12345678"
+    "authKey": "12345678",
+    "telegramToken": "123456:demo",
+    "botServiceUrl": "http://127.0.0.1/bot/"
 }

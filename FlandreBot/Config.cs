@@ -5,6 +5,8 @@ public class Config {
     public string miraiEndpoint;
     public long miraiQQ;
     public string authKey;
+    public string telegramToken;
+    public string botServiceUrl;
     public static Config FromFile() {
         return JsonMapper.ToObject<Config>(File.ReadAllText("flandre_bot_config.json"));
     }
