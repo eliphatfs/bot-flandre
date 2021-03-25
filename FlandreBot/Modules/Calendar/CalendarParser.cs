@@ -115,9 +115,11 @@ namespace Module.Calendar {
 
             return eventList;
         }
-        public List<CalendarEvent> Parse() {
-            _buffer = File.ReadAllText("./user_rJqPKAAfesiIVjrKdPHl5FbXDa6ZBT2fsZldYejF.txt").Replace("\r", "") + "placeholder:";
-            return _parseCalendar();
+        public async Task<List<CalendarEvent>> Parse(string input) {
+            return await Task.Run(() => {
+                _buffer = input.Replace("\r", "") + "placeholder:";
+                return _parseCalendar();
+            });
         }
     }
 }
