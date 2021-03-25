@@ -5,11 +5,13 @@ using System.Web;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using LitJson;
+using System.Linq;
 
 namespace Connector {
     public class MiraiConnector : BaseConnector {
         public HttpClient client = new HttpClient();
         public string sessionKey = null;
+        public long QQ;
         public async Task<JsonData> GetJson(string url, NameValueCollection queries) {
             var resp = await client.GetAsync(url + "?" + queries.ToString());
             resp.EnsureSuccessStatusCode();
@@ -32,7 +34,7 @@ namespace Connector {
             client.BaseAddress = new Uri(config.miraiEndpoint);
             var receipt = await PostJson("/auth", new JsonData { ["authKey"] = config.authKey });
             sessionKey = (string)receipt["session"];
-            await PostJson("/verify", new JsonData { ["sessionKey"] = sessionKey, ["qq"] = config.miraiQQ });
+            await PostJson("/verify", new JsonData { ["sessionKey"] = sessionKey, ["qq"] = QQ = config.miraiQQ });
         }
 
         public override async Task SendMessage(IMessageTarget target, Message message) {
@@ -99,11 +101,13 @@ namespace Connector {
                                 message.Add(new TextSub { text = (string)sub["text"] });
                                 break;
                             case "At":
-                                message.Add(new AtSub { target = (long)sub["target"] });
+                                var atTarget = (long)sub["target"] == QQ ? Helper.MyID : (long)sub["target"];
+                                message.Add(new AtSub { target = atTarget });
                                 break;
                         }
                     }
-                    stage.Add (message);
+                    if (message.Any((x) => x is AtSub atSub && atSub.target == Helper.MyID))
+                        stage.Add (message);
                 }
             }
             return stage.ToArray();
