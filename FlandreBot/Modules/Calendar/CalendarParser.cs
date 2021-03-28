@@ -61,6 +61,18 @@ namespace Module.Calendar {
 
             return _lookahead;
         }
+        private string _enhancedSummaryProcessor() {
+            StringBuilder enhancedSummary = new StringBuilder();
+            _lookahead = _stringProcessingPipeline();
+            Regex courseMatcher = new Regex(@"[[].*[]]");
+            enhancedSummary
+                .Append("*")
+                .Append(courseMatcher.Match(_lookahead).Value)
+                .Append("* ")
+                .Append(courseMatcher.Replace(_lookahead, ""));
+
+            return enhancedSummary.ToString();
+        }
         private bool _parseField(CalendarEvent currentEvent) {
             if(_lookahead == "END")
                 return false;
@@ -78,7 +90,7 @@ namespace Module.Calendar {
                         currentEvent.DateStart = DateTime.ParseExact(_lookahead, DateFormat, CultureInfo.InvariantCulture);
                         break;
                     case "SUMMARY":
-                        currentEvent.Summary = _stringProcessingPipeline();
+                        currentEvent.Summary = _enhancedSummaryProcessor();
                         break;
                 }
                 _match(_lookahead);
