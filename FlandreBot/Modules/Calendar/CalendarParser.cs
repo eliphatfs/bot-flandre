@@ -66,9 +66,8 @@ namespace Module.Calendar {
             _lookahead = _stringProcessingPipeline();
             Regex courseMatcher = new Regex(@"[[].*[]]");
             enhancedSummary
-                .Append("*")
                 .Append(courseMatcher.Match(_lookahead).Value)
-                .Append("* ")
+                .Append(" ")
                 .Append(courseMatcher.Replace(_lookahead, ""));
 
             return enhancedSummary.ToString();
