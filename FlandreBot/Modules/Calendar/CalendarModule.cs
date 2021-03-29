@@ -45,10 +45,10 @@ namespace Module.Calendar {
                     var mb = new StringBuilder();
                     int index = 1;
                     foreach (var ev in selector) {
-                        mb.Append(index).Append(". `")
+                        mb.Append(index).Append(". ")
+                        .Append($"\\[ID = {1000 + calendar.IndexOf(ev)}] `")
                         .Append(ev.Summary.Replace("\\,", ","))
-                        .Append($"` *Due {ev.DateStart.ToString()}*")
-                        .AppendLine($" \\[ID = {1000 + calendar.IndexOf(ev)}]");
+                        .AppendLine($"`\n    *Due {ev.DateStart.ToString()}*");
                         index++;
                     }
                     await message.Reply(new Message { new TextSub { text = mb.ToString() } });
